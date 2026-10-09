@@ -12,7 +12,7 @@ const os = require('node:os');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const { build, rewriteHtml, rewriteJs, rewriteCss, normaliseBase, PAGES, SERVER_PAGES } = require('../tools/build-pages');
+const { build, rewriteHtml, rewriteJs, rewriteCss, normaliseBase, PAGES, SERVER_PAGES, PREVIEW_Z } = require('../tools/build-pages');
 const { readKnowledge, localAnswer } = require('../server/chat');
 const { readTyres } = require('../server/tyres');
 
@@ -78,7 +78,7 @@ describe('the copy for GitHub Pages', () => {
     for (const page of [...PAGES, '404.html']) {
       const html = read(out, page);
       // written into the page, so it shows with scripts off
-      const strip = /<p class="preview-strip" id="preview-strip" translate="no"><b>Preview<\/b>((?:[^<]|<span class="preview-more">[^<]*<\/span>)+) <a href="https:\/\/hindustantyreagencies\.com\/">Open the shop\u2019s own site<\/a><\/p>/.exec(html);
+      const strip = /<p class="preview-strip" id="preview-strip" translate="no"><b>Preview<\/b> ((?:[^<]|<span class="preview-more">[^<]*<\/span>)+) <a href="https:\/\/hindustantyreagencies\.com\/">Open the shop\u2019s own site<\/a><\/p>/.exec(html);
       assert.ok(strip, `${page} carries the strip`);
       assert.match(strip[1], /A design demo, not the shop\u2019s live website\./, page);
       if (page !== '404.html') assert.match(html, /<a class="skip"[^>]*>[^<]*<\/a>\n<p class="preview-strip"/, `${page}: the strip follows the skip link`);
@@ -90,6 +90,17 @@ describe('the copy for GitHub Pages', () => {
       assert.equal(/signing in does not work/.test(strip[1]), SERVER_PAGES.includes(page.split('/')[0]), page);
     }
     assert.match(read(out, 'index.html'), /<meta property="og:title" content="Preview: /, 'a shared link says so too');
+  });
+
+  test('the strip never lies over the chat: on a phone the open chat fills the screen, close button and all', () => {
+    const chatCss = fs.readFileSync(path.join(ROOT, 'css', 'chat.css'), 'utf8');
+    const z = sel => Number((new RegExp(`\\${sel} \\{[^}]*z-index: (\\d+)`).exec(chatCss) || [])[1]);
+    assert.ok(z('.chat-fab') > 0 && z('.chat-panel') > 0, 'the chat\'s layers are where this test looks for them');
+    assert.ok(PREVIEW_Z < Math.min(z('.chat-fab'), z('.chat-panel')), `the strip (layer ${PREVIEW_Z}) stays under the chat (${z('.chat-fab')} and ${z('.chat-panel')})`);
+    for (const page of [...PAGES, '404.html']) assert.match(read(out, page), new RegExp(`\\.preview-strip\\{position:relative;z-index:${PREVIEW_Z};`), page);
+    // and over the site's header, which sticks to the top edge
+    const header = Number((/\.site-header \{[^}]*z-index: (\d+)/.exec(fs.readFileSync(path.join(ROOT, 'css', 'styles.css'), 'utf8')) || [])[1]);
+    assert.ok(header > 0 && PREVIEW_Z > header);
   });
 
   test('nothing a visitor types can reach the shop\'s real store: the newsletter form is switched off in the copy', () => {
@@ -181,6 +192,10 @@ describe('the copy for GitHub Pages', () => {
       assert.equal(cfg.signIn, 'off');
       assert.equal(cfg.mode, 'preview');
       assert.equal(cfg.demo, undefined, 'no sample numbers and no demo PIN: there is nothing to sign in to');
+      assert.equal(cfg.referral, undefined, 'no free service is promised to an invited friend on a page that cannot honour it');
+      // an address handed over as a URL object is caught like any other
+      assert.equal((await (await page.fetch(new URL(`https://someone.github.io${BASE}/api/public/config`))).json()).mode, 'preview');
+      assert.equal(page.calls.length, 0);
       assert.deepEqual(await (await page.fetch(`${BASE}/api/me`)).json(), { signedIn: false });
     });
 

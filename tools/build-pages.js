@@ -53,8 +53,11 @@ const underBase = (base, url) => (/^\/(?!\/)/.test(url) ? base + url : url);
 
 const SHOP = 'https://hindustantyreagencies.com/';
 // in the page's own head, because the home page does not load the stylesheet the app pages share; in the
-// flow of the page, never stuck to the top, so it cannot sit over the header
-const PREVIEW_STYLE = '<style>.preview-strip{position:relative;z-index:61;margin:0;padding:.55rem 1rem;background:#2b5fd9;color:#f4f4f0;font-size:1rem;line-height:1.4;text-align:center}'
+// flow of the page, never stuck to the top, so it cannot sit over the header. Its layer is below the chat's
+// (roundel 56, panel 57 in css/chat.css): on a phone the open chat fills the screen from the top edge, and a
+// strip above it would cover the chat's own close button.
+const PREVIEW_Z = 55;
+const PREVIEW_STYLE = `<style>.preview-strip{position:relative;z-index:${PREVIEW_Z};margin:0;` + 'padding:.55rem 1rem;background:#2b5fd9;color:#f4f4f0;font-size:1rem;line-height:1.4;text-align:center}'
   + '.preview-strip b{display:inline-block;margin-right:.5em;padding:.2em .5em .04em;background:#f4f4f0;color:#0d0d0e;border-radius:5px;font-family:var(--display,sans-serif);font-weight:600;font-size:1.15em;line-height:1;letter-spacing:.08em;text-transform:uppercase}'
   + '.preview-strip a{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}'
   + '@media (max-width:600px){.preview-strip{font-size:.95rem}.preview-more{display:none}}'   // a phone gets the short form: two lines, not three
@@ -63,7 +66,7 @@ function previewStrip(page) {
   const text = SERVER_PAGES.includes(page.split('/')[0])
     ? 'A design demo, not the shop\u2019s live website. This page needs a server that is not running here: signing in does not work, and nothing you type on it is sent.'
     : 'A design demo, not the shop\u2019s live website.<span class="preview-more"> Buying, prices and offers are on the shop\u2019s own site.</span>';
-  return `<p class="preview-strip" id="preview-strip" translate="no"><b>Preview</b>${text} <a href="${SHOP}">Open the shop\u2019s own site</a></p>`;
+  return `<p class="preview-strip" id="preview-strip" translate="no"><b>Preview</b> ${text} <a href="${SHOP}">Open the shop\u2019s own site</a></p>`;
 }
 
 // a form that posts to another site would send what a visitor types to a real system (the newsletter form posts
@@ -119,6 +122,8 @@ async function serverAnswers() {
     if (me.signedIn !== false) throw new Error('/api/me did not answer as it does for a visitor who is not signed in');
     // no server, so nobody can sign in: no demo numbers, no demo PIN, and the passport says sign-in is off
     delete config.demo;
+    // nor the offer made to an invited friend (shown when the address carries ?ref=): nothing here can honour it
+    delete config.referral;
     return { chat: { ...chat, ai: false }, tyres, config: { ...config, mode: 'preview', signIn: 'off' }, me };
   } finally {
     await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); });
@@ -158,7 +163,7 @@ function staticHost(base, answers) {
   // the part of an address after the base, when it is one of the site's own /api/ addresses
   const routeOf = input => {
     try {
-      const url = new URL(typeof input === 'string' ? input : input.url, location.href);
+      const url = new URL(typeof input === 'string' ? input : input instanceof URL ? input.href : input.url, location.href);
       if (url.origin !== location.origin) return null;
       const p = BASE && url.pathname.startsWith(BASE + '/') ? url.pathname.slice(BASE.length) : url.pathname;
       return p.startsWith('/api/') ? p : null;
@@ -284,4 +289,4 @@ if (require.main === module) {
     .catch(e => { console.error('Preview not built:', e.message); process.exit(1); });
 }
 
-module.exports = { build, rewriteHtml, rewriteJs, rewriteCss, normaliseBase, PAGES, SITE_ROOTS, LEFT_OUT, SERVER_PAGES };
+module.exports = { build, rewriteHtml, rewriteJs, rewriteCss, normaliseBase, PAGES, SITE_ROOTS, LEFT_OUT, SERVER_PAGES, PREVIEW_Z };
