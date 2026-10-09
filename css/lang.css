@@ -1,0 +1,40 @@
+/* Hindi and Punjabi: the same type family where it exists (Hind and Teko have Devanagari), Mukta Mahee for
+   Gurmukhi, loaded only for the letters that need them. Letter spacing and line heights tuned for Teko's Latin
+   are eased off, because spaced-out Indic letters break their joined marks. */
+
+@font-face { font-family: "Hind"; src: url("../assets/fonts/hind-devanagari-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Hind"; src: url("../assets/fonts/hind-devanagari-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Hind"; src: url("../assets/fonts/hind-devanagari-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Teko"; src: url("../assets/fonts/teko-devanagari-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Teko"; src: url("../assets/fonts/teko-devanagari-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Teko"; src: url("../assets/fonts/teko-devanagari-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Teko"; src: url("../assets/fonts/teko-devanagari-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Mukta Mahee"; src: url("../assets/fonts/mukta-mahee-gurmukhi-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0A00-0A7F, U+200C-200D, U+20B9, U+25CC, U+A830-A839; }
+@font-face { font-family: "Mukta Mahee"; src: url("../assets/fonts/mukta-mahee-gurmukhi-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0A00-0A7F, U+200C-200D, U+20B9, U+25CC, U+A830-A839; }
+@font-face { font-family: "Mukta Mahee"; src: url("../assets/fonts/mukta-mahee-gurmukhi-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; unicode-range: U+0A00-0A7F, U+200C-200D, U+20B9, U+25CC, U+A830-A839; }
+@font-face { font-family: "Mukta Mahee"; src: url("../assets/fonts/mukta-mahee-gurmukhi-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0A00-0A7F, U+200C-200D, U+20B9, U+25CC, U+A830-A839; }
+
+/* Teko has no Gurmukhi: Punjabi display text falls through to Mukta Mahee */
+html.lang-pa { --display: "Teko", "Mukta Mahee", "Arial Narrow", sans-serif; --text: "Hind", "Mukta Mahee", system-ui, sans-serif; }
+
+/* the switch: three plates under the header, the chosen one lit */
+.lang-bar { display: flex; flex-wrap: wrap; gap: .5rem; width: 100%; max-width: var(--wrap); margin: -.4rem auto .9rem; padding-inline: var(--gut); }
+.app-main .lang-bar { padding-inline: 0; margin-top: 0; }
+.lang-btn { display: inline-flex; align-items: center; min-height: 44px; padding: .25em .95rem .15em; border: 2px solid var(--paint); border-radius: 7px; background: transparent; color: var(--paint); font-family: var(--text); font-weight: 600; font-size: 1.05rem; line-height: 1; cursor: pointer; transition: background-color .2s, color .2s, border-color .2s; }
+.lang-btn:hover { border-color: var(--signal); color: var(--signal); }
+.lang-btn[aria-pressed="true"], .lang-btn[aria-pressed="true"]:hover { background: var(--signal); border-color: var(--signal); color: var(--ink); }
+.lang-btn:lang(hi), .lang-btn:lang(pa) { font-size: 1.12rem; }
+
+/* Indic letters are taller and carry marks above and below: give them room, and do not space them out */
+html.lang-hi .display, html.lang-pa .display { line-height: 1.05; letter-spacing: 0; padding-top: 0; }
+html.lang-hi .plate, html.lang-pa .plate, html.lang-hi .plate-mini, html.lang-pa .plate-mini { letter-spacing: .01em; }
+html.lang-hi .plate-txt, html.lang-pa .plate-txt { padding-block: .34em .3em; line-height: 1.15; }
+html.lang-hi .kicker, html.lang-pa .kicker { letter-spacing: .06em; }
+html.lang-hi .sign-title, html.lang-pa .sign-title, html.lang-hi .tile-name, html.lang-pa .tile-name, html.lang-hi .chip, html.lang-pa .chip, html.lang-hi .tabs [role="tab"], html.lang-pa .tabs [role="tab"] { letter-spacing: .01em; line-height: 1.1; }
+html.lang-hi .found-name, html.lang-pa .found-name { line-height: 1.05; }
+html.lang-pa .display, html.lang-pa .sign-title, html.lang-pa .plate, html.lang-pa .kicker, html.lang-pa .tile-name, html.lang-pa .tabs [role="tab"] { font-weight: 700; }
+html.lang-hi .brand-name, html.lang-pa .brand-name, html.lang-hi .vplate, html.lang-pa .vplate { letter-spacing: inherit; }
+
+/* anything else set in the display face keeps its letters together in Indic scripts */
+html.lang-hi :is(.hint strong, .status, .readback, .count, .dock a, .tyres-dock .plate, .size-example .size-code, .trail .plate, .lang-btn, .note strong, .step, .marker dd),
+html.lang-pa :is(.hint strong, .status, .readback, .count, .dock a, .tyres-dock .plate, .size-example .size-code, .trail .plate, .lang-btn, .note strong, .step, .marker dd) { letter-spacing: .01em; line-height: 1.15; }

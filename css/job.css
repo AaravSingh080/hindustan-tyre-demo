@@ -1,0 +1,60 @@
+/* The job card for the fitter: one sheet, black on white, big enough to read across a workshop bay.
+   On screen it sits on the dark page like a sign; when printed only the card is on the paper. */
+
+.job-main { max-width: 860px; }
+.job-actions { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+.job-actions .plate { flex: 1 1 220px; }
+
+.card { --line: #bdbcb5; --muted: #454542; position: relative; display: grid; gap: 1.1rem; padding: 1.4rem 1.4rem 1.5rem; background: #fff; color: var(--ink); border-radius: var(--r-board); }
+.card::before { content: ""; position: absolute; inset: 9px; border: 2px solid var(--ink); border-radius: 11px; pointer-events: none; }
+.card-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: .8rem 1.2rem; }
+.card-title { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: .9; letter-spacing: .04em; text-transform: uppercase; }
+.card-title small { display: block; font-size: .42em; font-weight: 500; letter-spacing: .18em; color: var(--muted); margin-bottom: .2em; }
+.card-no { display: inline-flex; align-items: stretch; padding: 4px; background: var(--ink); color: var(--paint); border-radius: 8px; }
+.card-no span { display: grid; place-items: center; padding: .3em .7rem .1em; font-family: var(--display); font-weight: 600; font-size: 1.5rem; line-height: 1; letter-spacing: .08em; text-transform: uppercase; }
+.card-no span + span { background: var(--paint); color: var(--ink); border-radius: 5px; font-size: 1.9rem; font-variant-numeric: tabular-nums; }
+.card .vplate { box-shadow: 0 4px 0 #8f8f89, 0 0 0 2px var(--ink); }
+
+.card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem 1rem; margin: 0; }
+.card-grid > div { padding: .4rem 0 .35rem; border-bottom: 2px solid var(--line); }
+.card-grid dt { font-size: .82rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.card-grid dd { margin: .05rem 0 0; font-family: var(--display); font-weight: 600; font-size: 1.7rem; line-height: 1; letter-spacing: .03em; padding-top: .1em; overflow-wrap: anywhere; }
+.card-grid dd small { display: block; margin-top: .25rem; font-family: var(--text); font-weight: 500; font-size: .92rem; letter-spacing: 0; color: var(--muted); }
+.card-grid .span2 { grid-column: 1 / -1; }
+
+.card h2 { margin: .4rem 0 0; font-family: var(--display); font-weight: 600; font-size: 1.35rem; line-height: 1; letter-spacing: .12em; text-transform: uppercase; }
+.positions { display: flex; flex-wrap: wrap; gap: .7rem; margin: 0; padding: 0; list-style: none; }
+.positions li { display: grid; place-items: center; width: 74px; height: 74px; border: 3px solid var(--ink); border-radius: 10px; font-family: var(--display); font-weight: 600; font-size: 1.5rem; line-height: 1; letter-spacing: .06em; padding-top: .1em; }
+.positions li.axle { width: auto; padding-inline: .9rem; border-style: dashed; color: var(--muted); font-size: 1.1rem; }
+.tasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem .9rem; margin: 0; padding: 0; list-style: none; }
+.tasks li { display: flex; align-items: center; gap: .7rem; min-height: 44px; font-weight: 600; font-size: 1.05rem; }
+.tasks li::before { content: ""; flex: none; width: 26px; height: 26px; border: 3px solid var(--ink); border-radius: 6px; }
+.tasks .blank { flex: 1; min-width: 60px; border-bottom: 2px solid var(--ink); height: 1.4em; }
+.tasks .unit { color: var(--muted); font-weight: 500; }
+.lines { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; margin: .4rem 0 0; }
+.lines div { padding-top: 2.6rem; border-bottom: 2px solid var(--ink); font-size: .85rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.card-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.4rem; padding-top: .4rem; }
+.card-foot img { width: 108px; height: 108px; border: 2px solid var(--ink); border-radius: 6px; background: #fff; }
+.card-foot p { margin: 0; max-width: 46ch; font-size: .95rem; }
+.card-foot strong { display: block; font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: .06em; text-transform: uppercase; }
+
+@media (max-width: 480px) {
+  .card { padding: 1.1rem 1rem 1.2rem; }
+  .card-grid dd { font-size: 1.45rem; }
+  .tasks { grid-template-columns: 1fr; }
+}
+
+@media print {
+  @page { size: A4; margin: 10mm; }
+  html, body.app { background: #fff !important; color: #000; }
+  body.app::after, .demo-strip, .app-head, .app-foot, .skip, .view-head, .job-actions, .job-note, .chat-fab, .chat-nudge, .chat-panel, .lang-bar, #toast { display: none !important; }
+  .app-main, .job-main { max-width: none; padding: 0; margin: 0; }
+  .card { border-radius: 0; padding: 6mm; break-inside: avoid; }
+  .card::before { inset: 0; border-radius: 0; }
+  .card-grid dd { font-size: 16pt; }
+  .card-title { font-size: 26pt; }
+  .positions li { width: 20mm; height: 20mm; }
+  .card .vplate { box-shadow: 0 0 0 2px #000; }
+  .lines div { padding-top: 14mm; }
+  a { text-decoration: none; color: inherit; }
+}

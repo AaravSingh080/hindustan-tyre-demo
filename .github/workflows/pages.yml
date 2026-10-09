@@ -1,0 +1,63 @@
+# On every push to main: run the tests, then publish the preview copy of the site to GitHub Pages.
+# GitHub Pages serves plain files only, so what is published is the copy made by tools/build-pages.js
+# (see the top of that file for what works there and what needs the real server).
+name: Test and publish the preview
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# one deployment at a time; a run that is already publishing is allowed to finish
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # tells the build which folder of the address the site will live in ("/repo-name", or nothing for a site of its own)
+      - id: pages
+        uses: actions/configure-pages@v6.0.0
+      - run: node --disable-warning=ExperimentalWarning tools/build-pages.js --out _site --base "${{ steps.pages.outputs.base_path }}"
+      - uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5.0.1

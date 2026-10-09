@@ -1,0 +1,73 @@
+{
+  "_readme": "The one place to edit how the tyre passport behaves. Restart the server after saving. The server checks this file when it starts and refuses to run if something is wrong, telling you which entry to fix. Entries that start with _ are notes for you and are ignored.",
+
+  "shop": {
+    "name": "Hindustan Tyre Agencies",
+    "whatsapp": "918303400005",
+    "utcOffsetMinutes": 330
+  },
+
+  "_shops": "Shops the breakdown button can call. It picks the nearest one by lat and lng. Check each shop's coordinates on a map before going live.",
+  "shops": [
+    {
+      "id": "ludhiana",
+      "name": "Hindustan Tyre Agencies, Ludhiana",
+      "phone": "+918303400005",
+      "address": "H-20, New Market, Opp. Railway Station, Ludhiana, Punjab",
+      "lat": 30.9122,
+      "lng": 75.8483
+    }
+  ],
+
+  "_rewards": "The visit card. Each day a customer comes in (a purchase or a logged visit) counts as one visit. 'card' says which free service is earned at which visit. After 'cardVisits' visits the card starts again. 'referral' is the free service both people get when an invited friend makes a first purchase; 'maxPerYear' caps how many a single customer can earn by inviting (0 switches referrals off).",
+  "rewards": {
+    "services": [
+      { "key": "pressure-tread-check", "name": "Pressure and tread check" },
+      { "key": "rotation", "name": "Tyre rotation" },
+      { "key": "alignment-check", "name": "Alignment check" },
+      { "key": "puncture-repair", "name": "Puncture repair" }
+    ],
+    "cardVisits": 8,
+    "card": [
+      { "atVisit": 2, "service": "pressure-tread-check" },
+      { "atVisit": 4, "service": "rotation" },
+      { "atVisit": 6, "service": "alignment-check" },
+      { "atVisit": 8, "service": "puncture-repair" }
+    ],
+    "referral": { "service": "rotation", "maxPerYear": 6 }
+  },
+
+  "_reminders": "When reminders are prepared. 'replacementLeadDays' is how long before the estimated replacement date a customer appears in the staff list. Each service is due after everyKm or everyMonths since it was last done, whichever comes first, and applies only to the tyre kinds listed in 'for' (see the profile keys below). Sources for the intervals: Apollo and MRF say rotate and check alignment every 5,000 km; the 6 months is a fallback for cars that are driven little.",
+  "reminders": {
+    "replacementLeadDays": 30,
+    "serviceLeadDays": 7,
+    "services": [
+      { "key": "rotation", "name": "Tyre rotation", "everyKm": 5000, "everyMonths": 6, "for": ["car"] },
+      { "key": "alignment-check", "name": "Alignment check", "everyKm": 5000, "everyMonths": 6, "for": ["car"] }
+    ]
+  },
+
+  "_tyres": "Numbers behind the replacement estimate. A profile is chosen by matching the tyre size against 'sizeMatch' (first match wins; the last profile must have an empty sizeMatch so every size is covered). The size is matched without spaces, load index or ply rating, with R for radial: 185/65R15, 90/100-10, 10.00-20, 295/80R22.5. The first profile also covers three-wheelers. 'replaceAtMm' is the tread depth the reminder aims at; 'legalMinMm' is the legal limit (Central Motor Vehicles Rules 1989, Rule 94: 1.6 mm, and 0.8 mm for two and three wheelers). 'typicalLifeKm' and 'typicalMonthlyKm' are used until a customer has a tread reading at least 'minKmForReadings' after fitting. 'maxAgeYears' is the age at which tyres are due whatever the tread (CEAT and Apollo say 5 to 6 years).",
+  "_tyres_sources": "Car: new tread 7.5 mm (Apollo Alnac 4G), replace at 2 mm (MRF), life about 45,000 km (Apollo, Spinny), about 1,000 km a month (IIT Delhi odometer survey). Two-wheeler and truck figures are working assumptions with no manufacturer source: check them against what you see at the counter, and measure new tread at fitting where you can.",
+  "tyres": {
+    "maxAgeYears": 6,
+    "minKmForReadings": 5000,
+    "profiles": [
+      { "key": "two-wheeler", "sizeMatch": "^[2-4]\\.\\d{1,2}-\\d{1,2}$|^\\d{2,3}/\\d{2,3}-\\d{1,2}$|^\\d{2,3}/\\d{2,3}B\\d{2}$|^1\\d0/\\d{2}R(17|18|19|21)$", "newTreadMm": 5.0, "replaceAtMm": 1.0, "legalMinMm": 0.8, "typicalLifeKm": 30000, "typicalMonthlyKm": 800 },
+      { "key": "truck", "sizeMatch": "^([5-9]|1[0-4])\\.\\d{2}[-R]\\d{2}$|R(17\\.5|19\\.5|22\\.5|24\\.5)$", "newTreadMm": 16.0, "replaceAtMm": 2.0, "legalMinMm": 1.6, "typicalLifeKm": 80000, "typicalMonthlyKm": 6000 },
+      { "key": "car", "sizeMatch": "", "newTreadMm": 7.5, "replaceAtMm": 2.0, "legalMinMm": 1.6, "typicalLifeKm": 45000, "typicalMonthlyKm": 1000 }
+    ]
+  },
+
+  "_warranty": "Shown on the passport. Staff can change the months for an individual sale; 0 means no warranty is shown.",
+  "warranty": {
+    "defaultMonths": 60,
+    "policyUrl": "https://hindustantyreagencies.com/pages/tyre-warranty-policy"
+  },
+
+  "_privacy": "'deleteAfterInactiveYears': a customer with no visit for this long is deleted automatically. 'noticeVersion' is recorded with each consent; change it when you change the wording of the privacy page.",
+  "privacy": {
+    "deleteAfterInactiveYears": 7,
+    "noticeVersion": "2026-10"
+  }
+}

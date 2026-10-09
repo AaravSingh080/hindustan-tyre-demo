@@ -1,0 +1,122 @@
+/* Find my tyres (/tyres/): one question per screen, big picture tiles, number-plate answers.
+   Loaded after styles.css and passport.css. Blue (--sign) marks information and help; yellow stays action. */
+
+/* ---------- frame ---------- */
+.tyres-main { max-width: 1120px; }
+.tyres .chevrons { height: 34px; }
+.tyres .chevrons-in { --notch: calc(60px * 34 / 44); width: calc(100% + 4 * var(--notch)); background-size: auto 34px; transform: translateX(calc(var(--step, 0) * var(--notch) * -1)); transition: transform .4s var(--ease); }
+.rm .chevrons-in { transition: none; }
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.trail { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.trail .text-link { margin-left: .4rem; }
+
+/* ---------- picture tiles: what do you drive ---------- */
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.tile { display: block; color: var(--paint); border-radius: var(--r-board); transition: transform .22s var(--ease), opacity .2s; }
+.tile-img { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--r-board); background: var(--asphalt-3); }
+.tile-img::after { content: ""; position: absolute; inset: 7px; border: 2px solid var(--paint); border-radius: 11px; pointer-events: none; transition: inset .3s var(--ease), border-color .2s; }
+.tile-img img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.9) brightness(.9); transition: filter .4s, transform .5s var(--ease); }
+.tile-name { display: flex; align-items: center; justify-content: space-between; gap: .5rem; min-height: 50px; padding: .5rem .3rem 0; font-family: var(--display); font-weight: 600; font-size: clamp(1.7rem, 6vw, 2.2rem); line-height: .95; letter-spacing: .03em; text-transform: uppercase; }
+.tile-name .i { width: 22px; height: 22px; color: var(--signal); flex: none; }
+.tile:hover .tile-img img, .tile:focus-visible .tile-img img { filter: none; transform: scale(1.04); }
+.tile:hover .tile-img::after { inset: 11px; border-color: var(--signal); }
+.tile:active { transform: translateY(3px); }
+.tile[aria-pressed="true"] .tile-img::after { border-color: var(--signal); border-width: 3px; }
+.tiles.is-picking .tile:not([aria-pressed="true"]) { opacity: .55; }
+.tile-wide { grid-column: 1 / -1; }
+.tile-wide .tile-img { aspect-ratio: 16 / 7; }
+/* a tyre brand: its logo on a white plate, its name underneath */
+.tile-logo .tile-img { aspect-ratio: 16 / 9; background: var(--paint); }
+.tile-logo .tile-img::after { border-color: var(--ink); }
+.tile-logo .tile-img img, .tile-logo:hover .tile-img img, .tile-logo:focus-visible .tile-img img { box-sizing: border-box; padding: 13% 16%; object-fit: contain; filter: none; mix-blend-mode: multiply; }
+.tile-logo:hover .tile-img::after { border-color: var(--ink); border-width: 3px; }
+.tile-logo:hover .tile-name { color: var(--signal); }
+.picks-know { margin-top: .2rem; }
+.pos-car img { object-position: 50% 60%; }
+.pos-scooter img, .pos-motorcycle img { object-position: 50% 45%; }
+.pos-truck img { object-position: 50% 55%; }
+.pos-erickshaw img { object-position: 50% 40%; }
+
+/* ---------- answers as plates ---------- */
+.picks-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+/* every answer plate on this page may wrap: company names and 'show all' lines must fit a 320px screen */
+.tyres .plate { white-space: normal; }
+.tyres .plate-txt { padding-block: .5em .32em; line-height: 1.05; text-align: center; }
+.picks-grid .plate { min-height: 68px; }
+.picks-grid .plate-txt { padding-inline: .7rem; }
+.picks-grid .plate-mini { min-height: 58px; }
+.picks-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.plate.is-pressed { transform: translateY(4px); box-shadow: 0 0 0 var(--edge); }
+.tyres .plate-block { width: 100%; }
+.tyres .view-head .lede { max-width: 52ch; }
+.tyres .kicker { margin-top: .4rem; }
+.answer-note { color: var(--muted); }
+
+/* where the size is written: a picture with a ring, and the example plate */
+.sidewall { position: relative; width: min(100%, 38svh, 420px); margin-inline: auto; aspect-ratio: 1; }
+.sidewall img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--r-board); }
+.sidewall svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sidewall .ring { fill: none; stroke: var(--signal); stroke-width: 3; stroke-dasharray: 8 6; }
+.js:not(.rm) .sidewall .ring { stroke-dasharray: 1200; stroke-dashoffset: 1200; }
+.js:not(.rm) .in .sidewall .ring, .js:not(.rm) .sidewall.in .ring { animation: ring-draw .7s .2s var(--ease) forwards; }
+@keyframes ring-draw { to { stroke-dashoffset: 0; } }
+.sidewall .dim-chip { --dp: 1; --x: 30%; --y: 50%; }
+.size-example { display: inline-flex; align-items: stretch; min-height: 62px; padding: 4px; background: var(--paint); color: var(--ink); border-radius: var(--r-plate); box-shadow: 0 4px 0 #8f8f89; }
+.size-example .plate-tab { background: var(--ink); color: var(--paint); border-radius: 5px 0 0 5px; width: 46px; }
+.size-example .size-code { display: flex; align-items: center; gap: .18em; padding: .2em .9rem 0; border: 2px solid var(--ink); border-left: 0; border-radius: 0 5px 5px 0; font-family: var(--display); font-weight: 600; font-size: 1.9rem; line-height: 1; letter-spacing: .06em; }
+.size-example .size-code span { color: #7a7a74; }
+.size-example .size-code .on { color: var(--ink); border-bottom: 3px solid var(--signal); }
+
+/* ---------- found it ---------- */
+.found-name { font-family: var(--display); font-weight: 700; font-size: clamp(2.6rem, 9vw, 4rem); line-height: .9; letter-spacing: .02em; text-transform: uppercase; }
+.js:not(.rm) .handoff .plate { animation: slide-in .38s var(--ease) both; animation-delay: var(--d, 0s); }
+@keyframes slide-in { from { opacity: 0; transform: translateX(28px); } 70% { transform: translateY(2px); } to { opacity: 1; transform: none; } }
+
+/* ---------- the blue help board ---------- */
+.board-sign { --muted: #eef2fc; display: grid; gap: .9rem; padding: 1.5rem 1.35rem 1.4rem; background: var(--sign); color: var(--paint); }
+.board-sign::before { border-color: var(--paint); }
+.board-sign .kicker { color: var(--paint); }
+.board-sign .sign-title { color: var(--paint); }
+.board-sign p { max-width: 56ch; }
+.board-sign .plate { box-shadow: 0 4px 0 var(--edge); }
+.board-sign .text-link { color: var(--paint); text-decoration-color: var(--paint); }
+.board-sign :focus-visible { outline-color: var(--paint); }
+
+/* ---------- a screen arriving ---------- */
+.js:not(.rm) .view.view-enter { animation: view-in .3s var(--ease) both; }
+@keyframes view-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.js:not(.rm) .view-enter .picks-grid > *, .js:not(.rm) .view-enter .tiles > * { animation: pick-in .32s var(--ease) both; animation-delay: var(--d, 0s); }
+@keyframes pick-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- phone dock: help is one thumb away ---------- */
+.tyres-dock { position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; display: none; grid-template-columns: 1fr 1fr; gap: .6rem; padding: .6rem var(--gut) calc(.6rem + env(safe-area-inset-bottom)); background: rgba(13, 13, 14, .94); border-top: 2px solid var(--line); }
+.tyres-dock .plate { min-height: 52px; font-size: 1.2rem; }
+
+@media (max-width: 899px) {
+  .tyres-dock { display: grid; }
+  body.tyres { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+@media (min-width: 700px) {
+  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tile-wide { grid-column: span 3; }
+  .tile-wide .tile-img { aspect-ratio: 16 / 5; }
+  .picks-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .picks-3 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tile-wide { grid-column: span 2; }
+  .tile-wide .tile-img { aspect-ratio: 4 / 3; }
+  .tile-name { font-size: 1.9rem; }
+  .picks-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .picks-3 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .size-screen { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 2rem; align-items: start; }
+  .size-screen .size-side { position: sticky; top: 1rem; display: grid; gap: 1rem; justify-items: start; }
+  .found .sign { max-width: 680px; }
+}
+@media (max-width: 380px) {
+  .picks-grid .plate { font-size: 1.25rem; letter-spacing: .05em; }
+  .picks-grid .plate-txt { padding-inline: .45rem; overflow-wrap: anywhere; }
+  .tile-name { font-size: 1.5rem; }
+  .tile-name .i { display: none; }
+}

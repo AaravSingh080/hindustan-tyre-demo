@@ -1,0 +1,44 @@
+/* Compare tyres (/compare/): pick two or three, read them side by side in plain words. Loaded after passport.css. */
+
+.compare-main { max-width: 1120px; }
+.picklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+.picklist .plate { white-space: normal; min-height: 64px; }
+.picklist .plate-txt { flex-direction: column; gap: .05em; padding-block: .45em .3em; padding-inline: .6rem; line-height: 1; text-align: center; font-size: 1.28rem; overflow-wrap: anywhere; }
+.picklist .plate-txt small { font-size: .62em; letter-spacing: .12em; opacity: .75; }
+.picklist .plate[aria-pressed="true"] { --pb: var(--signal); --pf: var(--ink); --pk: var(--ink); --edge: var(--signal-edge); box-shadow: 0 4px 0 var(--edge), 0 0 0 3px var(--ink); }
+.picklist .plate[aria-pressed="true"] .plate-tab { background: var(--ink); color: var(--signal); }
+.pick-count { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; }
+
+/* the board: one column per tyre, rows read across */
+.board-wrap { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding-bottom: .4rem; }
+.cboard { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(230px, 1fr)); gap: .8rem; min-width: calc(var(--n, 2) * 230px + (var(--n, 2) - 1) * .8rem); }
+.ccol { display: grid; grid-auto-rows: auto; gap: .5rem; scroll-snap-align: start; }
+.chead { --muted: #b0afa9; position: relative; display: grid; gap: .2rem; min-height: 112px; padding: .9rem .9rem .8rem; background: #121213; color: var(--paint); border-radius: 12px; box-shadow: inset 0 0 0 2px #121213, inset 0 0 0 4px var(--paint); }
+.chead .brand { font-size: .84rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--signal); }
+.chead .model { font-family: var(--display); font-weight: 700; font-size: 1.9rem; line-height: .95; letter-spacing: .03em; text-transform: uppercase; padding-top: .08em; }
+.chead .sizes { margin-top: .3rem; font-size: .86rem; color: var(--muted); }
+.chead .unpick { position: absolute; top: .5rem; right: .5rem; width: 44px; height: 44px; background: var(--paint); color: var(--ink); box-shadow: none; }
+.chead .unpick .i { width: 18px; height: 18px; }
+.crow { display: grid; gap: .15rem; min-height: 86px; padding: .65rem .85rem .6rem; background: #fff; border-radius: 10px; box-shadow: inset 0 0 0 2px #e2e1da; }
+.crow.is-best { box-shadow: inset 0 0 0 3px var(--signal); }
+.crow dt { display: flex; align-items: center; justify-content: space-between; gap: .5rem; font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.crow dd { margin: 0; font-family: var(--display); font-weight: 600; font-size: 1.55rem; line-height: 1; letter-spacing: .03em; padding-top: .08em; overflow-wrap: anywhere; }
+.crow dd.words { font-family: var(--text); font-weight: 500; font-size: 1.02rem; line-height: 1.4; letter-spacing: 0; padding-top: 0; }
+.crow dd small { display: block; margin-top: .25rem; font-family: var(--text); font-weight: 500; font-size: .88rem; letter-spacing: 0; color: var(--muted); }
+.best { display: inline-block; padding: .18em .5em .05em; background: var(--signal); color: var(--ink); border-radius: 4px; font-family: var(--display); font-weight: 600; font-size: .95rem; letter-spacing: .1em; line-height: 1; }
+.dots5 { display: inline-flex; gap: 4px; margin-left: .4rem; vertical-align: middle; }
+.dots5 i { width: 10px; height: 10px; border-radius: 50%; background: #d9d8d0; }
+.dots5 i.on { background: var(--ink); }
+.cact { display: grid; gap: .5rem; }
+.cact .plate { width: 100%; }
+
+.sample-note { display: flex; gap: .7rem; align-items: flex-start; }
+.sample-note b { flex: none; padding: .22em .55em .04em; background: var(--ink); color: var(--signal); border-radius: 5px; font-family: var(--display); font-weight: 600; font-size: 1.1rem; line-height: 1; letter-spacing: .14em; text-transform: uppercase; }
+
+@media (min-width: 700px) { .picklist { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .picklist { grid-template-columns: repeat(4, minmax(0, 1fr)); } .cboard { min-width: 0; } }
+@media (max-width: 480px) {
+  .picklist .plate-txt { font-size: 1.08rem; letter-spacing: .05em; }
+  .cboard { grid-template-columns: repeat(var(--n, 2), 78vw); min-width: 0; }
+  .chead .model { font-size: 1.6rem; }
+}

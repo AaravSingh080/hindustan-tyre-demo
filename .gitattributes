@@ -1,0 +1,6 @@
+# one kind of line ending everywhere: the tests compare what the server sends with the files byte for byte
+* text=auto eol=lf
+*.webp binary
+*.png binary
+*.jpg binary
+*.woff2 binary

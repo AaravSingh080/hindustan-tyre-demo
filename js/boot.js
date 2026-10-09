@@ -1,0 +1,2 @@
+/* Runs before the page paints: marks that scripts are on, and whether motion should be reduced (the system setting, or ?motion=reduce in the address, as on the home page). Kept in a file of its own so these pages can forbid inline scripts. */
+document.documentElement.className = 'js' + (matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=reduce/.test(location.search) ? ' rm' : '');

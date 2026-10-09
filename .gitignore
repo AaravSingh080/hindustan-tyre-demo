@@ -1,0 +1,35 @@
+# installed packages, the customer database, secrets
+node_modules/
+data/
+.env
+.env.*
+!.env.example
+
+# the customer database and its backups, wherever DATA_DIR points
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.db
+backups/
+
+# a working paper about the shop's current live site: not for publishing
+accessibility-audit.md
+
+# built copies of the site (tools/build-pages.js)
+_site/
+
+# this computer's editor and assistant settings
+.claude/
+
+# leftovers from earlier versions that no page uses any more
+assets/video/
+assets/seq/tyre/
+assets/fonts/archivo-*.woff2
+assets/fonts/geist-mono-*.woff2
+assets/fonts/hind-latin-ext-*.woff2
+tools/make-hero-film.sh
+
+# system files
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,47 @@
+{
+  "_readme": "What the chat assistant knows and says. Edit freely and restart the server. 'facts' are read to the AI model as the truth about the shop and are also what the built-in answerer uses when no AI key is set. Never put prices or stock here unless you will keep them current: the assistant is told to send price questions to WhatsApp. 'quick' are the question buttons above the typing bar. Each 'faq' entry has the words that trigger it when no AI key is set.",
+  "name": "Hindustan Tyre assistant",
+  "greeting": "Hello. I am the Hindustan Tyre assistant. Ask me about tyres, sizes, fitting, warranty, delivery or your tyre passport. For prices and stock, WhatsApp us and a person replies.",
+  "offline_note": "I answer from the shop's own information. For anything I cannot answer, WhatsApp 83034 00005 and a person will help.",
+  "facts": [
+    "Hindustan Tyre Agencies is an authorised tyre dealer in Ludhiana, Punjab, trading since 2005. Shop: H-20, New Market, opposite the railway station, Ludhiana.",
+    "Phone and WhatsApp: +91 83034 00005. Email: info@hindustantyre.com. Online store: https://hindustantyreagencies.com",
+    "Brands sold include Apollo, CEAT, MRF, JK Tyre, Bridgestone, Michelin, Goodyear, Yokohama and Continental. Tyres for cars, SUVs, scooters, motorcycles, trucks, buses, tractors and e rickshaws, plus alloy wheels.",
+    "Services at the shop: tyre fitting, computerised wheel balancing, computerised wheel alignment, nitrogen inflation, automated tyre changing, puncture repair.",
+    "Every tyre is genuine, sourced from authorised distributors, with the manufacturer's warranty against manufacturing defects. Warranty policy: https://hindustantyreagencies.com/pages/tyre-warranty-policy",
+    "Pan India delivery is offered from the online store. Payments accepted: UPI, Visa, Mastercard, RuPay, net banking, EMI and cash on delivery.",
+    "Wholesale and fleet enquiries are welcome on WhatsApp.",
+    "The tyre size is printed on the sidewall, for example 185/65 R15: 185 is the width in millimetres, 65 the sidewall height as a percentage of the width, R15 a radial tyre for a 15 inch rim. Scooter and bike sizes look like 90/90-12 or 2.75-18; truck sizes like 10.00-20.",
+    "The site has a guided finder at /tyres/ that asks what you drive and gives the right tyres in three taps, and a WhatsApp photo option for anyone unsure.",
+    "The tyre passport at /passport/ lets a customer sign in with the mobile number given at the shop and a one-time code, and see the tyres fitted, the bill, the warranty, service history, an estimated replacement date and a visit card with free services (pressure and tread check, rotation, alignment check, puncture repair). It also has a breakdown button that calls the shop and shares the location, and a refer a friend link that gives both people a free service when the friend buys.",
+    "WhatsApp reminders are sent only to customers who said yes: about a month before tyres are estimated to need replacing, and when a rotation or alignment check is due. They can be stopped at any time from the passport, by replying STOP, or at the shop.",
+    "Tyres should be checked for replacement when the tread is close to 2 mm (the legal minimum is 1.6 mm for cars and 0.8 mm for two wheelers), when they are about six years old, or when there is damage, cracking or uneven wear. Rotation and an alignment check are advised about every 5,000 km or six months for cars.",
+    "Opening hours are not listed on the website: tell people to call or WhatsApp to check today's timing.",
+    "Prices, stock and offers are not listed in this assistant: tell people to WhatsApp 83034 00005 or use the online store for today's prices."
+  ],
+  "quick": [
+    "What tyre size do I need?",
+    "Do you fit tyres at the shop?",
+    "Is the warranty genuine?",
+    "When should I replace my tyres?",
+    "What is the tyre passport?",
+    "Do you deliver outside Ludhiana?"
+  ],
+  "faq": [
+    { "words": ["size", "number", "sidewall", "185", "which tyre", "fit my", "model", "right tyre", "choose"], "answer": "Your size is printed on the side of the tyre, for example 185/65 R15. The easiest way: open Find my tyres at /tyres/, tap what you drive and the company and model, and it shows the right tyres. Not sure? WhatsApp us a photo of the tyre's side on 83034 00005 and we will read it for you." },
+    { "words": ["fit", "fitting", "fit tyres", "do you fit", "fitted", "balance", "balancing", "alignment", "nitrogen", "puncture", "service", "services", "install", "installation"], "answer": "Yes. At the shop we do tyre fitting, computerised wheel balancing, computerised wheel alignment, nitrogen inflation, automated tyre changing and puncture repair. Call or WhatsApp 83034 00005 to check today's timing before you come." },
+    { "words": ["warranty", "genuine", "original", "fake", "guarantee", "claim"], "answer": "Every tyre we sell is genuine, bought from authorised distributors, and carries the manufacturer's warranty against manufacturing defects. The policy is at hindustantyreagencies.com/pages/tyre-warranty-policy. For a claim, bring the tyre and the bill to the shop, or WhatsApp us photos first." },
+    { "words": ["replace", "replacement", "how often", "old", "worn", "tread", "life", "last", "years", "km"], "answer": "Replace tyres when the tread is close to 2 mm (the legal minimum is 1.6 mm for cars, 0.8 mm for two wheelers), when they are about six years old, or if you see cracks, bulges or uneven wear. Car tyres usually last 40,000 to 50,000 km. Come in for a free tread check and we will tell you plainly how much life is left." },
+    { "words": ["passport", "sign in", "login", "otp", "code", "bill", "history", "reminder", "reward", "free service", "visit card", "refer", "friend", "breakdown"], "answer": "The tyre passport at /passport/ shows the tyres we fitted, your bill, warranty, service history and an estimated replacement date, plus a visit card that earns free services and a refer a friend link. Sign in with the mobile number you gave at the shop, the code we send, and the last four characters of your vehicle number. It also has a breakdown button that calls us and shares your location." },
+    { "words": ["deliver", "delivery", "ship", "shipping", "outside", "india", "courier", "order online"], "answer": "Yes, the online store at hindustantyreagencies.com delivers across India. Payments by UPI, cards, net banking, EMI or cash on delivery. For fitting you are welcome at the shop in Ludhiana, opposite the railway station." },
+    { "words": ["price", "prices", "pricing", "cost", "costs", "how much", "much", "rate", "rates", "rupees", "rs", "offer", "discount", "cheap", "cheapest", "quote", "stock", "available", "emi"], "answer": "Prices and stock change, so I do not quote them here. WhatsApp 83034 00005 with your vehicle or tyre size and a person will reply with today's price, or see the online store at hindustantyreagencies.com. We accept UPI, cards, net banking, EMI and cash on delivery." },
+    { "words": ["brand", "brands", "apollo", "ceat", "mrf", "jk", "bridgestone", "michelin", "goodyear", "yokohama", "continental", "which company"], "answer": "We are an authorised dealer for Apollo, CEAT, MRF, JK Tyre, Bridgestone, Michelin, Goodyear, Yokohama and Continental, for cars, SUVs, two wheelers, trucks, tractors and e rickshaws, and we sell alloy wheels too." },
+    { "words": ["where", "where is", "address", "location", "located", "ludhiana", "map", "directions", "reach", "how to reach"], "answer": "H-20, New Market, opposite the railway station, Ludhiana, Punjab. Call or WhatsApp 83034 00005 if you need directions." },
+    { "words": ["time", "timing", "hours", "open", "close", "sunday", "today", "when are you"], "answer": "Opening hours are not listed on the website, so please call or WhatsApp 83034 00005 to check today's timing before you come." },
+    { "words": ["wholesale", "bulk", "fleet", "truck", "trucks", "dealer", "business"], "answer": "Wholesale and fleet buyers are welcome. Message us on WhatsApp at 83034 00005 with what you need and we will send rates." },
+    { "words": ["contact", "phone", "call", "whatsapp", "email", "number", "talk", "human", "person", "staff"], "answer": "Call or WhatsApp +91 83034 00005, or email info@hindustantyre.com. A person at the shop replies on WhatsApp." },
+    { "words": ["hello", "hi", "hey", "namaste", "sat sri akal", "good morning", "good evening"], "answer": "Hello. Ask me about tyre sizes, fitting, warranty, delivery or your tyre passport. For prices and stock, WhatsApp 83034 00005." },
+    { "words": ["thank", "thanks", "ok", "okay", "great", "bye"], "answer": "You are welcome. If anything else comes up, I am here, and the shop is on WhatsApp at 83034 00005." }
+  ],
+  "fallback": "I do not have that in the shop's information. WhatsApp 83034 00005 and a person will answer, or try Find my tyres at /tyres/."
+}

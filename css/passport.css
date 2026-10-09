@@ -1,0 +1,214 @@
+/* Tyre passport, staff page and privacy page. Loaded after styles.css and built from the same road furniture.
+   These pages are read on cheap phones in daylight at a workshop, so:
+   - Signs: working panels are white informatory signs with black lettering (the page stays asphalt behind them).
+   - Type is a step larger, targets are at least 48px, and the film grain is switched off.
+   - The vehicle number is shown the way it looks on the vehicle: a white plate with an IND tab. */
+
+/* ---------- page frame ---------- */
+body.app { font-size: 1.125rem; padding-bottom: 0; }
+body.app::after { display: none; }
+.app h1.display { font-size: clamp(2.9rem, 10vw, 4.8rem); line-height: .86; }
+.app .hint, .app .err { font-size: 1rem; }
+.app .brand-name { display: block; }
+.app-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem var(--gut) .6rem; }
+.app-main { display: grid; gap: 1.4rem; width: 100%; max-width: 800px; margin-inline: auto; padding: .6rem var(--gut) 3.5rem; }
+.app [hidden] { display: none !important; }
+.app-main > *, .view > *, .stack > *, .sign > *, .form > *, .form-2 > *, .row > * { min-width: 0; }
+.view { display: grid; gap: 1.4rem; }
+.view-head { display: grid; gap: .7rem; padding-block: .4rem .2rem; }
+.view-head .lede { max-width: 52ch; font-size: 1.125rem; }
+.app-foot { border-top: 2px dashed var(--line); padding: 1.2rem var(--gut) calc(1.6rem + env(safe-area-inset-bottom)); }
+.app-foot ul { display: flex; flex-wrap: wrap; gap: .2rem 1.6rem; justify-content: center; max-width: 800px; margin-inline: auto; }
+.app-foot a { display: inline-flex; align-items: center; min-height: 48px; font-weight: 500; }
+.app-foot a:hover { color: var(--signal); }
+
+/* the demo strip stays on screen: nobody should mistake sample customers for real ones */
+.demo-strip { position: sticky; top: 0; z-index: 55; display: flex; align-items: center; justify-content: center; gap: .7em; min-height: 46px; padding: .35rem var(--gut); background: var(--signal); color: var(--ink); font-size: 1rem; font-weight: 600; line-height: 1.25; text-align: center; }
+.demo-strip b { flex: none; padding: .22em .55em .04em; background: var(--ink); color: var(--signal); border-radius: 5px; font-family: var(--display); font-weight: 600; font-size: 1.2rem; line-height: 1; letter-spacing: .14em; }
+
+/* ---------- signs: white panels ---------- */
+.sign { --muted: #454542; --dim: #5a5a56; --line: #bdbcb5; --alert: #a3150d; position: relative; display: grid; gap: 1.1rem; padding: 1.55rem 1.35rem 1.45rem; background: var(--paint); color: var(--ink); border-radius: var(--r-board); }
+.sign::before { content: ""; position: absolute; inset: 6px; border: 2px solid var(--ink); border-radius: 11px; pointer-events: none; }
+.sign :focus-visible { outline-color: var(--ink); }
+.sign ::selection { background: var(--ink); color: var(--paint); }
+.sign .kicker { color: var(--ink); }
+.sign .text-link { color: var(--ink); text-decoration-color: var(--ink); }
+.sign .text-link:hover { color: var(--ink); text-decoration-thickness: 3px; }
+.sign .field label { color: var(--ink); font-size: 1.05rem; }
+.sign .fplate:focus-within { outline-color: var(--ink); }
+/* a long label wraps inside its plate instead of running off a narrow screen */
+.sign .plate { box-shadow: 0 4px 0 var(--edge); white-space: normal; }
+.sign .plate-txt { padding-block: .5em .32em; line-height: 1.05; text-align: center; }
+.sign .plate:hover { box-shadow: 0 6px 0 var(--edge); }
+.sign .plate:active { box-shadow: 0 0 0 var(--edge); }
+.sign .plate-w { box-shadow: 0 4px 0 var(--edge), 0 0 0 2px var(--ink); }
+.sign-title { font-family: var(--display); font-weight: 600; font-size: 2rem; line-height: .95; letter-spacing: .04em; text-transform: uppercase; padding-top: .12em; }
+.sign-title .i { display: inline-block; width: .9em; height: .9em; margin: -.16em .3em 0 0; vertical-align: middle; }
+.sign p { max-width: 60ch; }
+.sign-signal { background: var(--signal); }
+.muted { color: var(--muted); }
+.big { font-family: var(--display); font-weight: 600; font-size: clamp(2.4rem, 9vw, 3.4rem); line-height: .9; letter-spacing: .02em; text-transform: uppercase; padding-top: .1em; }
+.stack { display: grid; gap: 1.1rem; }
+.stack:empty, .picks:empty { display: none; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; }
+.spread { justify-content: space-between; }
+
+/* facts: label above, value in plate lettering */
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 1.2rem; }
+.facts dt { font-size: 1rem; font-weight: 600; line-height: 1.3; color: var(--muted); }
+.facts dd { font-family: var(--display); font-weight: 600; font-size: 1.75rem; line-height: 1; letter-spacing: .03em; text-transform: uppercase; padding-top: .14em; overflow-wrap: anywhere; }
+.facts dd small { display: block; margin-top: .3rem; font-family: var(--text); font-size: 1rem; font-weight: 500; line-height: 1.35; letter-spacing: 0; text-transform: none; color: var(--muted); }
+.facts .wide { grid-column: 1 / -1; }
+
+/* state chips */
+.chip { display: inline-flex; align-items: center; gap: .35em; min-height: 34px; padding: .22em .6em .04em; border: 2px solid var(--ink); border-radius: 6px; font-family: var(--display); font-weight: 600; font-size: 1.2rem; line-height: 1; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.chip .i { width: 1em; height: 1em; margin-top: -.18em; }
+.chip-on { background: var(--ink); color: var(--paint); }
+.chip-warn { background: var(--signal); }
+
+/* notes inside a sign */
+.note { display: grid; gap: .5rem; padding: .95rem 1.05rem; border: 2px dashed var(--ink); border-radius: var(--r-plate); }
+.note-warn { border-style: solid; background: var(--signal); }
+.note-alert { border: 3px solid var(--alert); color: var(--alert); font-weight: 600; }
+.note strong { font-weight: 600; }
+.status { min-height: 1.6em; font-weight: 600; }
+.status:empty { display: none; }
+.status.is-bad { color: var(--alert); }
+
+/* ---------- the vehicle number, as a plate ---------- */
+.vplate { --bp: 6px; position: relative; display: flex; align-items: stretch; width: 100%; padding: var(--bp); border: 0; background: var(--paint); color: var(--ink); border-radius: 16px; box-shadow: 0 5px 0 #8f8f89; text-align: left; }
+.vplate::before { content: ""; position: absolute; inset: var(--bp); border: 3px solid var(--ink); border-radius: 11px; pointer-events: none; }
+.vplate-tab { display: grid; place-items: center; flex: none; width: clamp(44px, 12vw, 62px); background: var(--ink); color: var(--paint); border-radius: 9px 0 0 9px; font-family: var(--display); font-weight: 600; font-size: 1.15rem; line-height: 1; letter-spacing: .12em; padding-top: .12em; }
+.vplate-txt { flex: 1; min-width: 0; overflow: hidden; text-align: center; font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 11vw, 4.6rem); line-height: .82; letter-spacing: .03em; white-space: nowrap; padding: .24em .15em .08em; }
+/* where the browser can measure the plate itself, the lettering fills it whatever the screen */
+@supports (font-size: 1cqw) {
+  .vplate { container-type: inline-size; }
+  .vplate-txt { font-size: clamp(1.9rem, 12.5cqw, 5rem); }
+  .vplate-s { container-type: normal; }
+}
+.vplates { display: flex; flex-wrap: wrap; gap: .7rem; }
+.vplate-s { width: auto; min-height: 48px; border-radius: 10px; --bp: 4px; box-shadow: 0 3px 0 #8f8f89; cursor: pointer; }
+.vplate-s::before { border-width: 2px; border-radius: 7px; }
+.vplate-s .vplate-tab { width: 30px; font-size: .8rem; border-radius: 6px 0 0 6px; }
+.vplate-s .vplate-txt { display: grid; place-items: center; font-size: 1.7rem; padding: .22em .55rem .04em; }
+.vplate-s[aria-pressed="true"] { background: var(--signal); }
+.sign .vplate { box-shadow: 0 4px 0 #8f8f89, 0 0 0 2px var(--ink); }
+
+/* ---------- forms on signs ---------- */
+.form { display: grid; gap: 1.2rem; }
+.form-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 1rem; }
+.fplate input[type="tel"], .fplate input[type="text"], .fplate input[type="number"], .fplate input[type="password"], .fplate input[type="search"], .fplate input[type="date"] { width: 100%; }
+.fplate input::placeholder { color: #6f6f6a; opacity: 1; }
+.fplate input[type="number"] { -moz-appearance: textfield; }
+.fplate input[type="number"]::-webkit-outer-spin-button, .fplate input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.fplate input[type="date"] { font-size: 1.45rem; }
+.fplate .plate-tab.is-wide { width: 62px; font-size: 1.35rem; letter-spacing: .04em; }
+.readback { font-family: var(--display); font-weight: 600; font-size: 2.1rem; line-height: 1; letter-spacing: .08em; min-height: 1em; padding-top: .1em; }
+.readback:empty { display: none; }
+.picks { display: flex; flex-wrap: wrap; gap: .6rem; }
+
+.app fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.app legend { padding: 0; font-size: 1.05rem; font-weight: 600; }
+button.text-link { padding: 0; border: 0; background: none; text-align: left; cursor: pointer; }
+button.text-link:disabled { color: var(--muted); text-decoration: none; cursor: default; }
+.plate:disabled, .plate[aria-busy="true"] { opacity: .55; pointer-events: none; }
+.sign p > .chip { vertical-align: middle; }
+.sign img { border: 2px solid var(--ink); border-radius: 6px; background: #fff; }
+
+/* a tick box the size of a thumb */
+.tick { display: grid; grid-template-columns: auto 1fr; gap: .2rem .9rem; align-items: start; cursor: pointer; }
+.tick input { appearance: none; -webkit-appearance: none; width: 40px; height: 40px; margin: 0; border: 3px solid var(--ink); border-radius: 7px; background: #fff; cursor: pointer; }
+.tick input:checked { background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z' fill='%23f9d423'/%3E%3C/svg%3E") center / 26px no-repeat; }
+.tick strong { align-self: center; font-weight: 600; line-height: 1.3; }
+.tick .hint { grid-column: 2; }
+
+/* services done: tick chips */
+.checks { display: flex; flex-wrap: wrap; gap: .6rem; }
+.check { position: relative; }
+.check input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.check span { display: flex; align-items: center; min-height: 50px; padding: .2em .9rem 0; border: 2px solid var(--ink); border-radius: var(--r-plate); font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1; letter-spacing: .06em; text-transform: uppercase; }
+.check input:checked + span { background: var(--ink); color: var(--signal); }
+.check input:focus-visible + span { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+.more { border-top: 2px dashed var(--line); }
+.more summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; cursor: pointer; list-style: none; font-weight: 600; }
+.more summary::-webkit-details-marker { display: none; }
+.more summary .i { transition: transform .3s var(--ease); }
+.more[open] summary .i { transform: rotate(180deg); }
+.more[open] > .form, .more[open] > .stack { padding-bottom: .4rem; }
+
+/* tabs sit on the asphalt, so they keep the site's own tab style; four of them need a tighter grid */
+.tabs-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 0; }
+.tabs-4 [role="tab"] { position: relative; font-size: 1.24rem; letter-spacing: .05em; }
+.tabs-4 .count { display: inline-grid; place-items: center; min-width: 1.5em; height: 1.5em; margin: -.2em 0 0 .1em; padding: .1em .3em 0; background: var(--signal); color: var(--ink); border-radius: 99px; font-size: 1rem; letter-spacing: 0; }
+.tabs-4 .count:empty { display: none; }
+.tabs-4 [aria-selected="true"] .count { background: var(--ink); color: var(--signal); }
+
+/* ---------- lists ---------- */
+.rows { display: grid; }
+.rows > li { display: grid; gap: .5rem; padding: 1rem 0; border-top: 2px dashed var(--line); }
+.rows > li > * { min-width: 0; }
+.more > p, .rows p { overflow-wrap: anywhere; }
+.rows > li:first-child { border-top: 0; padding-top: .2rem; }
+.rows > li:last-child { padding-bottom: .2rem; }
+.rows-title { font-family: var(--display); font-weight: 600; font-size: 1.6rem; line-height: 1; letter-spacing: .04em; text-transform: uppercase; padding-top: .12em; }
+.rows .meta { color: var(--muted); font-size: 1rem; line-height: 1.4; }
+.empty { color: var(--muted); }
+
+/* ---------- replacement estimate ---------- */
+.gauge { position: relative; height: 30px; border: 3px solid var(--ink); border-radius: 7px; background: #fff; overflow: hidden; }
+.gauge-fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--ink); transition: width .8s var(--ease); }
+.gauge-stop { position: absolute; inset: 0 auto 0 0; width: 0; background: repeating-linear-gradient(135deg, var(--signal) 0 7px, var(--ink) 7px 14px); border-right: 3px solid var(--ink); }
+.gauge-key { display: flex; justify-content: space-between; gap: .8rem; font-size: 1rem; font-weight: 600; line-height: 1.25; }
+.gauge-key span:nth-child(2) { text-align: center; }
+.gauge-key span:last-child { text-align: right; }
+.rm .gauge-fill { transition: none; }
+
+/* ---------- visit card ---------- */
+.stamps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem .6rem; }
+.stamps li { display: grid; justify-items: center; gap: .4rem; text-align: center; font-size: .95rem; font-weight: 600; line-height: 1.2; }
+.stamp { display: grid; place-items: center; width: 58px; height: 58px; border: 3px dashed var(--ink); border-radius: 50%; font-family: var(--display); font-weight: 600; font-size: 1.7rem; line-height: 1; padding-top: .12em; }
+.stamp .i { width: 26px; height: 26px; margin-top: -.12em; }
+.is-stamped .stamp { border-style: solid; background: var(--ink); color: var(--signal); }
+.is-gift:not(.is-stamped) .stamp { background: var(--signal); border-style: solid; }
+
+/* ---------- confirmations: pinned to the bottom of the screen ---------- */
+.toast { position: fixed; z-index: 58; left: 50%; bottom: calc(1rem + env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(92vw, 520px); margin: 0; padding: .95rem 1.1rem .85rem; background: var(--signal); color: var(--ink); border: 3px solid var(--ink); border-radius: var(--r-plate); box-shadow: 0 12px 26px -8px #000; font-weight: 600; line-height: 1.35; text-align: center; }
+.toast.is-bad { background: var(--paint); color: #a3150d; border-color: #a3150d; }
+
+/* ---------- dialogs ---------- */
+.confirm { width: min(92vw, 520px); padding: 0; border: 0; border-radius: var(--r-board); background: transparent; color: var(--ink); }
+.confirm[open] { animation: sheet-in .35s var(--ease); }
+.rm .confirm[open] { animation: none; }
+
+/* ---------- print: the passport slip, and nothing else ---------- */
+.slip { display: none; }
+@media print {
+  body.app { background: #fff; color: #000; }
+  .demo-strip, .app-head, .app-main, .app-foot, .skip, .toast, dialog { display: none !important; }
+  .slip.is-printing { display: grid; grid-template-columns: 42mm 1fr; gap: 6mm; align-items: center; width: 120mm; padding: 5mm; border: .6mm solid #000; border-radius: 3mm; color: #000; font-size: 11pt; line-height: 1.35; }
+  .slip img { width: 42mm; height: 42mm; }
+  .slip h2 { font-family: var(--display); font-size: 20pt; line-height: 1; text-transform: uppercase; letter-spacing: .04em; }
+  .slip .slip-plate { margin: 1.5mm 0; font-family: var(--display); font-weight: 700; font-size: 22pt; line-height: 1; letter-spacing: .05em; }
+}
+
+/* ---------- phone ---------- */
+@media (max-width: 700px) {
+  .tabs-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .sign { padding: 1.4rem 1.1rem 1.3rem; }
+  .form-2 { grid-template-columns: 1fr; }
+  .app .brand-name { font-size: 1rem; }
+  .sign .plate:not(.plate-mini) { display: flex; width: 100%; }
+}
+@media (max-width: 380px) {
+  .facts { grid-template-columns: 1fr; }
+  .stamps { gap: .8rem .3rem; }
+  .stamp { width: 52px; height: 52px; }
+}
+
+/* who is signed in, on the staff desk and the owner's page */
+.who { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: -.4rem 0 .2rem; }
+.who .chip { border-color: var(--paint); }
+.who .chip-on { background: var(--signal); color: var(--ink); border-color: var(--signal); }

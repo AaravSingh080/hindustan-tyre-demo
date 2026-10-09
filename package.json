@@ -1,0 +1,18 @@
+{
+  "name": "hindustan-tyre-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hindustan Tyre Agencies site and tyre passport server",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "22.15.1"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.132.0",
+    "qrcode-generator": "2.0.4"
+  }
+}
